@@ -52,9 +52,7 @@ public class EusTJobE2eTest extends EusBaseTest {
 
     @Test
     @DisplayName("EUS in a TJob")
-    void testTJob(@DockerBrowser(type = CHROME) RemoteWebDriver driver)
-            throws InterruptedException {
-        this.driver = driver;
+    void testTJob() throws InterruptedException {
 
         log.info("Navigate to TORM and start new project");
         driver.manage().window().setSize(new Dimension(1024, 1024));

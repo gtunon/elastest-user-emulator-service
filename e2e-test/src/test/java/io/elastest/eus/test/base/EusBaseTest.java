@@ -97,13 +97,6 @@ public class EusBaseTest {
             }
         }
 
-        String sutHost = System.getenv("ET_SUT_HOST");
-        if (sutHost == null) {
-            sutUrl = "http://localhost:8080/";
-        } else {
-            sutUrl = "http://" + sutHost + ":8080/";
-        }
-        System.out.println("Webapp URL: " + sutUrl);
     }
 	
 	

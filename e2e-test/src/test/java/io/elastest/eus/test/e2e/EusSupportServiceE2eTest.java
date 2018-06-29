@@ -56,8 +56,7 @@ public class EusSupportServiceE2eTest extends EusBaseTest {
 
     @Test
     @DisplayName("EUS as support service")
-    void testSupportService(
-            @DockerBrowser(type = CHROME) RemoteWebDriver driver)
+    void testSupportService()
             throws InterruptedException {
         this.driver = driver;
 

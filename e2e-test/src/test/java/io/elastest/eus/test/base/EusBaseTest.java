@@ -30,6 +30,7 @@ import java.util.Date;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -159,6 +160,7 @@ public class EusBaseTest {
                     new Date(entry.getTimestamp()), entry.getLevel(),
                     entry.getMessage()));
         }
+		
     }
 
     protected void createNewProject(WebDriver driver, String projectName) {

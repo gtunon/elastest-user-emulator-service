@@ -51,6 +51,9 @@ public class EusBaseTest {
 
     final Logger log = getLogger(lookup().lookupClass());
 
+	public static final String CHROME = "chrome";
+    public static final String FIREFOX = "firefox";
+	
     protected String tormUrl = "http://localhost:37000/"; // local by default
     protected String secureTorm = "http://user:pass@localhost:37000/";
 
@@ -58,6 +61,10 @@ public class EusBaseTest {
     protected String ePassword = null;
 
     protected boolean secureElastest = false;
+	
+
+    private static String browserType;
+    private static String eusURL;
 
     protected WebDriver driver;
 
@@ -69,8 +76,55 @@ public class EusBaseTest {
         capabilities.setCapability(LOGGING_PREFS, logPrefs);
     }
 
+	
+	@BeforeAll
+    public static void setupClass() {
+
+        browserType = System.getProperty("browser");
+
+        System.out.println("Browser Type: " + browserType);
+
+        eusURL = System.getenv("ET_EUS_API");
+        if (eusURL == null) {
+
+            if (browserType == null || browserType.equals(CHROME)) {
+                ChromeDriverManager.getInstance().setup();
+            } else {
+                FirefoxDriverManager.getInstance().setup();
+            }
+        }
+
+        String sutHost = System.getenv("ET_SUT_HOST");
+        if (sutHost == null) {
+            sutUrl = "http://localhost:8080/";
+        } else {
+            sutUrl = "http://" + sutHost + ":8080/";
+        }
+        System.out.println("Webapp URL: " + sutUrl);
+    }
+	
+	
     @BeforeEach
     void setup() {
+
+        if (eusURL == null) {
+            if (browserType == null || browserType.equals(CHROME)) {
+                driver = new ChromeDriver();
+            } else {
+                driver = new FirefoxDriver();
+            }
+        } else {
+            DesiredCapabilities caps;
+            if (browserType == null || browserType.equals(CHROME)) {
+                caps = DesiredCapabilities.chrome();
+            } else {
+                caps = DesiredCapabilities.firefox();
+            }
+            caps.setCapability("browserId", testName);
+
+            driver = new RemoteWebDriver(new URL(eusURL), caps);
+        }
+	
         String etmApi = getProperty("etEmpApi");
         if (etmApi != null) {
             tormUrl = etmApi;
